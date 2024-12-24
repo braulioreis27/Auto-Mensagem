@@ -159,5 +159,6 @@ pm2 startup
 pm2 save --force
 
 ```
-
+# Abrir o Evolution V2
+http://10.94.80.237:8080/manager --> Seu IP e Porta 8080 
 
