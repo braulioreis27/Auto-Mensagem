@@ -1,22 +1,22 @@
-## Instalando o N8N via NPM
+# Instalando o N8N via NPM
 
-# Instalando o Node.js & npm
+## Instalando o Node.js & npm
 
 ```bash
 sudo apt install -y nodejs npm
 ```
-# Verificar se foi instalando corretamente
+## Verificar se foi instalando corretamente
 
 ```bash
 node -v
 npm -v
 ```
-# Instalando o N8N via NPM
+## Instalando o N8N via NPM
 
 ```bash
 sudo npm install -g n8n
 ```
-# Configurando o .n8n /.env
+## Configurando o .n8n /.env
 
 ```bash
 nano ~/.n8n/.env
@@ -31,7 +31,7 @@ N8N_BASIC_AUTH_PASSWORD=123456
 ```
 
 
-# Configurando o n8n.service
+## Configurando o n8n.service
 
 ```bash
 sudo nano /etc/systemd/system/n8n.service
@@ -58,13 +58,13 @@ WantedBy=multi-user.target
 ```
 
 
-# Comando para hatilitar e iniciar o serviço do N8N
+## Comando para hatilitar e iniciar o serviço do N8N
 
 ```bash
 sudo systemctl enable n8n
 sudo systemctl start n8n
 ```
-# Comando para colocar o host IP na máquina
+## Comando para colocar o host IP na máquina
 
 ```bash
 n8n --host 10.94.80.26 --> Coloque aqui o ip da máquina
@@ -88,13 +88,13 @@ sudo ufw allow 5678/tcp
 sudo apt install certbot
 sudo certbot certonly --standalone -d 10.94.80.26:5678 --> Coloque aqui o ip da máquina
 ```
-# Comando para adicionar false para o IP Host
+## Comando para adicionar false para o IP Host
 
 ```bash
 sudo N8N_SECURE_COOKIE=false n8n --host 10.94.80.26 --port 5678 -- Colocar aqui o IP da Máquina
 ```
 
-# Comando para editar bashrc
+## Comando para editar bashrc
 
 ```bash
 nano ~/.bashrc
@@ -106,19 +106,18 @@ export N8N_HOST=10.94.80.26
 export N8N_PORT=5678
 ```
 
-# Comando para carregar a configuração 
+## Comando para carregar a configuração 
 
 ```bash
 source ~/.bashrc
 ```
-
-# Comando para iniciar o N8N
+## Comando para iniciar o N8N
 
 ```bash
 n8n
 ```
 
-# Abrir o N8N - Navegador
+## Abrir o N8N - Navegador
 http://10.94.80.26:5678/ --> Seu IP e a Porta aqui
 
 
