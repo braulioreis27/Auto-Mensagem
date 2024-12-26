@@ -1,4 +1,5 @@
 # Auto Mensagem
+<img src="![URL_da_Imagem"](arquitetura.jpeg) alt="Texto Alternativo">.
 
 ## O Auto Mensagem é um projeto inovador focado em automatizar o atendimento ao cliente utilizando inteligência artificial. 
 Ele integra diversos serviços poderosos para criar um fluxo de atendimento eficiente e inteligente, 
