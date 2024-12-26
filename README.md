@@ -1,12 +1,12 @@
 # Auto Mensagem
 
 ## O Auto Mensagem é um projeto inovador focado em automatizar o atendimento ao cliente utilizando inteligência artificial. 
-![URL_da_Imagem"](arquitetura.jpeg)
+
 Ele integra diversos serviços poderosos para criar um fluxo de atendimento eficiente e inteligente, 
 proporcionando uma experiência otimizada para o usuário.
 
 ## Funcionalidades Principais:
-
+![URL_da_Imagem"](opensuorce.jpeg)
 - Atendimento Inteligente: Utiliza a IA do OpenAI, integrada através do Dify.ai, para interpretar as mensagens dos 
 clientes e fornecer respostas relevantes e personalizadas.
 
@@ -17,7 +17,7 @@ organização e o direcionamento correto das informações.
 clientes, como telefone, e-mail, nome, entre outros, garantindo a segurança e a integridade das informações.
 
 ## Arquitetura:
-
+![URL_da_Imagem"](arquitetura.jpeg)
 O projeto funciona da seguinte forma:
 
 1. Um cliente envia uma mensagem.
@@ -29,7 +29,7 @@ O projeto funciona da seguinte forma:
 - Retorno da resposta gerada pela IA para o cliente.
 
 ## Tecnologias Utilizadas:
-
+![URL_da_Imagem"](stack.jpeg)
 1. Dify.ai: Plataforma para integrar e gerenciar aplicações de IA, incluindo a integração com o OpenAI.
 2. OpenAI: Modelo de linguagem avançado para processamento de linguagem natural e geração de respostas inteligentes.
 3. n8n: Ferramenta de automação de fluxo de trabalho (workflow) para orquestrar a integração entre os serviços.
