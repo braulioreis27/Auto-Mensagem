@@ -1,7 +1,5 @@
 # Instalação EvolutionAPI V2 (LocalHost) NVM
 
-## Instalação EvolutionV2 via NVM
-
 ## Instale o PostgreSQL na sua máquina.
 
 ```bash
