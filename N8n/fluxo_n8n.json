@@ -1,0 +1,159 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "path": "webhook-receber-whatsapp",
+        "options": {}
+      },
+      "name": "Receber Mensagem WhatsApp",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "webhook-unique-id"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [],
+          "string": [
+            {
+              "value1": "={{$json[\"file\"] ? \"arquivo\" : \"mensagem\"}}",
+              "operation": "equal",
+              "value2": "arquivo"
+            }
+          ]
+        }
+      },
+      "name": "Verificar Tipo de Mensagem",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "key": "mensagem",
+        "value": "={{$json[\"text\"]}}"
+      },
+      "name": "Registrar Texto no BD",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "key": "fileLink",
+        "value": "={{$json[\"fileLink\"]}}"
+      },
+      "name": "Registrar Arquivo no BD",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        650,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://api.mega.co.nz/upload",
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"email\": \"{{ $json[\"email\"] }}\",\n  \"password\": \"{{ $json[\"password\"] }}\",\n  \"file\": \"{{ $binary.data }}\"\n}"
+      },
+      "name": "Enviar para Mega API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "options": {},
+        "content": "Mensagem ou arquivo processado com sucesso!",
+        "destination": "={{$json[\"clientEndpoint\"]}}"
+      },
+      "name": "Responder WhatsApp",
+      "type": "n8n-nodes-base.webhookResponse",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Receber Mensagem WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Verificar Tipo de Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Tipo de Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Registrar Texto no BD",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Registrar Arquivo no BD",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Registrar Texto no BD": {
+      "main": [
+        [
+          {
+            "node": "Responder WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar Arquivo no BD": {
+      "main": [
+        [
+          {
+            "node": "Enviar para Mega API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar para Mega API": {
+      "main": [
+        [
+          {
+            "node": "Responder WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
+
