@@ -174,6 +174,26 @@ pm2 startup
 pm2 save --force
 
 ```
+=====================================================
+## Configuração do Firewall
+
+1. Habilitar o UFW
+2. 
+```bash
+sudo ufw enable
+```
+2. Verificar o status do UFW
+
+```bash
+sudo ufw status
+```
+3. Adicionar as portas
+
+```bash
+sudo ufw allow 80 && sudo ufw allow 8080 && sudo ufw allow 22
+
+```
+
 # Abrir o Evolution V2
 http://10.94.80.237:8080/manager --> Seu IP e Porta 8080 
 
