@@ -178,7 +178,6 @@ pm2 save --force
 ## Configuração do Firewall
 
 1. Habilitar o UFW
-2. 
 ```bash
 sudo ufw enable
 ```
