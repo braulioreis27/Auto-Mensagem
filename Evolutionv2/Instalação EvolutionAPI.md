@@ -3,8 +3,7 @@
 ## Instale o PostgreSQL na sua máquina.
 
 ```bash
-sudo apt-get update
-sudo apt-get install postgresql postgresql-contrib
+sudo apt  update && sudo apt install postgresql postgresql-contrib -y
 
 ```
 
@@ -42,7 +41,7 @@ CREATE DATABASE evolutionv2;
 ## Instalação do Redis
 
 ```bash
-sudo apt-get install redis-server
+sudo apt install redis-server -y
 ```
 ## Inicie o serviço do Redis:
 
@@ -92,7 +91,6 @@ npm install -g npm@latest
 ```bash
 node -v
 npm -v
-npm install -g npm@latest
 ```
 =====================================================
 
