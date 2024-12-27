@@ -3,27 +3,27 @@
 1. Instale todos os pacotes de dependência necessários.
 
 ```bash
-sudo  apt  install  apt-transport-https  ca-certificates  curl wget nano git software-propriedades-comuns  -y
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
 ```
 2. Adicione a chave GPG do Docker ao chaveiro do seu servidor.
 
 ```bash
-sudo  curl  -fsSL  https://download.docker.com/linux/ubuntu/gpg  -o  /etc/apt/keyrings/docker.asc
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 ```
 3. Adicione o repositório Docker mais recente às suas fontes APT.
 
 ```bash
-echo "deb [arch= $( dpkg --print-architecture ) assinado-por=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $( . /etc/os-release && echo " $VERSION_CODENAME " ) estável" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 4. Atualize o índice de pacotes do servidor.
 
 ```bash
-sudo  apt  update
+sudo apt update
 ```
 5. Instalar o Docker.
 
 ```bash
-sudo  apt-get  install  docker-ce  docker-ce-cli  containerd.io  docker-buildx-plugin  docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 ```
 6. O comando acima instala a versão mais recente do Docker com os seguintes plugins:
 
@@ -37,7 +37,7 @@ docker-compose-plugin: Permite o gerenciamento de aplicativos Docker de vários 
 7. Veja a versão do Docker instalada no seu servidor.
 
 ```bash
-sudo  docker  --versão
+sudo docker --version
 ```
 Saída:
 
@@ -50,13 +50,13 @@ Docker version 26.1.4, build 5650f9b
 1. Habilite o serviço do sistema Docker para iniciar automaticamente no momento da inicialização.
 
 ```bash
-sudo  systemctl enable docker
+sudo systemctl enable docker
 ```
 
 2. Visualize o status do serviço Docker e verifique se ele está em execução.
 
 ```bash
-sudo  systemctl  status  docker
+sudo systemctl status docker
 ```
 Saída:
 
@@ -77,13 +77,13 @@ TriggeredBy: ● docker.socket
 3. Execute o seguinte comando para parar o Docker.
 
 ```bash
-sudo  systemctl  parar  docker
+sudo systemctl stop docker
 ```
 
 4. Reinicie o serviço Docker.
 
 ```bash
-sudo  systemctl  status  docker
+sudo systemctl restart docker
 ```
 =======================================================================================================
 ## Execute um aplicativo em contêiner
@@ -94,7 +94,7 @@ Siga as etapas abaixo para executar um aplicativo em contêiner Nginx de exemplo
 1. Obtenha a imagem mais recente do Nginx do Docker Hub.
 
 ```bash
-sudo  docker  pull  nginx:mais recente
+sudo docker pull nginx:latest
 ```
 2. Visualize todas as imagens do Docker no servidor e verifique se a imagem Nginx está disponível.
 
@@ -110,7 +110,7 @@ nginx        latest    dde0cca083bc   2 weeks ago   188MB
 3. Execute um novo contêiner do Docker usando a imagem.
 
 ```bash
-sudo  docker  run  --name  mynginx  -d  -p 80 :80 nginx:latest
+sudo docker run --name mynginx -d -p 80:80 nginx:latest
 ```
 O comando acima executa um novo contêiner Docker no servidor usando sua imagem Nginx com os seguintes valores:
 
@@ -123,7 +123,7 @@ nginx:latest: Define a imagem do Docker a ser usada ao criar o contêiner.
 4. Liste todos os contêineres em execução no servidor e verifique se o novo contêiner está ativo.
 
 ```bash
-sudo  docker  ps
+sudo docker ps
 ```
 Saída:
 
@@ -131,10 +131,24 @@ Saída:
 CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                               NAMES
 d79cad9ea8d2   nginx:latest   "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   mynewnginx
 ```
-5. Permita a porta HTTP 80 através do firewall para habilitar conexões à porta.
+
+=======================================================================================================
+## 5. Configuração do Firewall
+
+1. Habilitar o UFW
+```bash
+sudo ufw enable
+```
+2. Verificar o status do UFW
 
 ```bash
-sudo  ufw  allow 80 /tcp
+sudo ufw status
+```
+3. Adicionar as portas
+
+```bash
+sudo ufw allow 80 && sudo ufw allow 8080 && sudo ufw allow 22
+
 ```
 6. Acesse o endereço IP do seu servidor usando um navegador da Web, como o Chrome, para testar o acesso ao contêiner do Docker.
 
@@ -142,7 +156,6 @@ sudo  ufw  allow 80 /tcp
 http://SERVER-IP
 ```
 =======================================================================================================
-
 ## FONTE:
 
 Instalando Docker - Docs Vultr
