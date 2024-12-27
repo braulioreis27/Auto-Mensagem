@@ -1,10 +1,19 @@
 # Instalando o Dify via npm
 
-# 1. Atualize o sistema
+# Atualizar Sistema e Limpar
 Antes de começar, atualize os pacotes do sistema.
 
 ```bash
-sudo apt update && sudo apt full-upgrade -y
+sudo apt update && sudo apt full-upgrade -y && sudo apt autoclean -y && sudo apt autoremove -y
+```
+## Instalar Componentes necessários 
+
+```bash
+sudo apt install wget curl nano git -y
+```
+## Instalar Localidade pt-Br 
+```bash
+sudo apt install locales && sudo locale-gen pt_BR.UTF-8 && sudo localectl set-locale LANG=pt_BR.UTF-8 && sudo update-locale LANG=pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8 LANGUAGE="pt_BR"
 ```
 ======================================================================================
 # 2. Instale o Node.js e npm
