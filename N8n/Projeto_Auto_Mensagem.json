@@ -1,0 +1,596 @@
+{
+  "name": "Projeto - Auto Mensagem",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "66f4413d-7bf1-4408-a5b5-cfaafa472cea",
+              "leftValue": "={{ $json.row_number }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "386326ea-e0e3-4b45-989a-74990e856d6f",
+      "name": "Usuário Existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        500,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c27dab1e-3cf4-41cf-8d23-7bbe466321b2",
+              "name": "nome",
+              "value": "={{ $json.body.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "7ce5fcad-d59b-489f-b526-6fee81a70128",
+              "name": "Mensagem",
+              "value": "={{ $json.body.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "8a72e1e7-1747-424a-adbb-9ed94c4b2379",
+              "name": "celular",
+              "value": "={{ $json.body.key.remoteJid.split('@')[0]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bb5a602b-a8a7-4531-8949-fe652e33aa11",
+      "name": "Infos Manuais",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.dify.ai/v1/chat-messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer "
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "inputs"
+            },
+            {
+              "name": "query",
+              "value": "={{ $('Infos Manuais').item.json.Mensagem }}"
+            },
+            {
+              "name": "response_mode",
+              "value": "blocking"
+            },
+            {
+              "name": "conversation_id",
+              "value": "={{ $json.conversaDifyId }}"
+            },
+            {
+              "name": "user",
+              "value": "={{ $('Infos Manuais').item.json.celular }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "65ec13af-a775-41d7-a9df-90029cc7fdd2",
+      "name": "Dify |Criar Conversa + Executa Agente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "b069f56f-123a-436b-aaab-9c9b7ba7693f",
+              "leftValue": "={{ $json.body.isGroup }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "9590e7cf-f8ab-4314-92be-b033f68b58b4",
+              "leftValue": "={{ $json.body.key.fromMe }}",
+              "rightValue": "554899260823",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "25d5d798-81ac-4a7d-b005-08b0bca5b390",
+      "name": "Verificar Condições",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        40,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo",
+          "mode": "list",
+          "cachedResultName": "agente-atendimento-dify-1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 587326683,
+          "mode": "list",
+          "cachedResultName": "agente-atendimento-dify - usuarios (1).csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo/edit#gid=587326683"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "celular",
+              "lookupValue": "={{ $json.celular }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "78305839-0608-48cc-a259-961c23e12459",
+      "name": "Buscar Usuario",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        360,
+        200
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo",
+          "mode": "list",
+          "cachedResultName": "agente-atendimento-dify-1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 587326683,
+          "mode": "list",
+          "cachedResultName": "agente-atendimento-dify - usuarios (1).csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo/edit#gid=587326683"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nome": "={{ $('Infos Manuais').item.json.nome }}",
+            "celular": "={{ $('Infos Manuais').item.json.celular }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "celular",
+              "displayName": "celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "conversaDifyId",
+              "displayName": "conversaDifyId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "11dfcbdb-40a7-489f-acfc-5660d038431d",
+      "name": "Criar Usuário1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        660,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Gatilho - Receber Msg Whatsapp",
+        "height": 304.2933006536471,
+        "width": 268.42825338387223
+      },
+      "id": "26b99dd1-9748-4c06-91e7-84bc17bc25ee",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Gestão usuários e conversas",
+        "height": 516.7449328744189,
+        "width": 975.7768703810513,
+        "color": 4
+      },
+      "id": "fa4651cc-9fb0-4fec-992a-96761f08f935",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Agente IA",
+        "height": 516.7449328744189,
+        "width": 433.93056874467266,
+        "color": 5
+      },
+      "id": "6223f1f4-3124-4760-aae8-7f4efb2ef12a",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Responder msg WhatsApp",
+        "height": 323.41394755351655,
+        "width": 239.7012260879508
+      },
+      "id": "202e6e9b-6c85-4092-a8c0-f84e02f084c5",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messageData\": {\n        \"to\": \"{{ $('Webhook').item.json.body.key.remoteJid }}\",\n        \"text\": \"{{ $('Dify |Criar Conversa + Executa Agente').item.json.answer.replace(/\\n/g, '\\\\n').replace(/[\"]/g, '\\\\\"') }}\"\n    }\n} ",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "bcd03909-0a5d-4823-9195-4f2120b73e35",
+      "name": "ChamadaAPI - Mega API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo",
+          "mode": "list",
+          "cachedResultName": "agente-atendimento-dify-1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 587326683,
+          "mode": "list",
+          "cachedResultName": "agente-atendimento-dify - usuarios (1).csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XLNk4R1xVvQD5BfVWk0hd_n8_QLZ1G_PIWI4_06XSGo/edit#gid=587326683"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "celular": "={{ $('Infos Manuais').item.json.celular }}",
+            "nome": "={{ $('Infos Manuais').item.json.nome }}",
+            "conversaDifyId": "={{ $json.conversation_id }}"
+          },
+          "matchingColumns": [
+            "celular"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "celular",
+              "displayName": "celular",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "conversaDifyId",
+              "displayName": "conversaDifyId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b3c79ed3-9130-43e6-b0eb-e3c8d23c4ecf",
+      "name": "Atualizar ID da conversa",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1260,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "c8fa6443-8a11-46d6-8672-1a0f477aba94",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        840,
+        200
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "megaapi",
+        "options": {}
+      },
+      "id": "ae5f2d50-a402-4969-a1af-7cfd262cf714",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        200
+      ],
+      "webhookId": "4d10e98e-9231-4076-a50f-0421cc8e9e74"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Usuário Existe?": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Criar Usuário1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Infos Manuais": {
+      "main": [
+        [
+          {
+            "node": "Buscar Usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dify |Criar Conversa + Executa Agente": {
+      "main": [
+        [
+          {
+            "node": "Atualizar ID da conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Condições": {
+      "main": [
+        [
+          {
+            "node": "Infos Manuais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Usuario": {
+      "main": [
+        [
+          {
+            "node": "Usuário Existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Usuário1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Atualizar ID da conversa": {
+      "main": [
+        [
+          {
+            "node": "ChamadaAPI - Mega API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Dify |Criar Conversa + Executa Agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Verificar Condições",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "da6ac34e-8c32-46d1-812c-41f1f036e7ac",
+  "meta": {
+    "instanceId": "52e238959ab086c289db6bfe7b171868352d518d13d37103a9ce65c180c390cd"
+  },
+  "id": "3eQgeABu56GlZGD8",
+  "tags": []
+}
