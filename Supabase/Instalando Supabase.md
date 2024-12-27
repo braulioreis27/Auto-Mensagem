@@ -1,7 +1,9 @@
 # Instalando Supabase
 
 ## Antes de começar
+
 Você precisa do seguinte instalado no seu sistema: Git e Docker ( Windows , MacOS ou Linux ).
+
 =======================================================================================================
 ## Instalando e executando o Supabase 
 
