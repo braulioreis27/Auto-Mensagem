@@ -1,5 +1,19 @@
 # Instalação EvolutionAPI V2 (LocalHost) NVM
 
+## Atualizar Sistema e Limpar 
+
+```bash
+sudo apt update && sudo apt full-upgrade -y && sudo apt autoclean -y && sudo apt autoremove -y
+```
+## Instalar Componentes necessários 
+
+```bash
+sudo apt install wget curl nano git -y
+```
+## Instalar Localidade pt-Br 
+```bash
+sudo apt install locales && sudo locale-gen pt_BR.UTF-8 && sudo localectl set-locale LANG=pt_BR.UTF-8 && sudo update-locale LANG=pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8 LANGUAGE="pt_BR"
+```
 ## Instale o PostgreSQL na sua máquina.
 
 ```bash
@@ -36,6 +50,11 @@ ALTER USER evolutionv2 CREATEDB;
 
 ```bash
 CREATE DATABASE evolutionv2;
+```
+## Para sair 
+
+```bash
+\q
 ```
 =====================================================
 ## Instalação do Redis
