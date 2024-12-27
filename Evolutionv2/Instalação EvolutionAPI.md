@@ -195,6 +195,6 @@ sudo ufw allow 80 && sudo ufw allow 8080 && sudo ufw allow 22
 ```
 
 # Abrir o Evolution V2
-http://10.94.80.237:8080/manager --> Seu IP e Porta 8080 
+http://0.0.0.0:8080/manager --> Seu IP e Porta 8080 
 
 =====================================================
