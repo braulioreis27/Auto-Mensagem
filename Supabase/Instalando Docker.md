@@ -44,7 +44,7 @@ Saída:
 ```bash
 Docker version 26.1.4, build 5650f9b
 ```
-=============================================================================================================================
+=======================================================================================================
 ## Gerenciar o serviço do sistema Docker
 
 1. Habilite o serviço do sistema Docker para iniciar automaticamente no momento da inicialização.
@@ -85,7 +85,7 @@ sudo  systemctl  parar  docker
 ```bash
 sudo  systemctl  status  docker
 ```
-=============================================================================================================================
+=======================================================================================================
 ## Execute um aplicativo em contêiner
 
 O Docker executa aplicativos em contêiner usando imagens de contêiner locais ou remotas de registros como o Docker Hub.
@@ -141,7 +141,7 @@ sudo  ufw  allow 80 /tcp
 ```bash
 http://SERVER-IP
 ```
-=============================================================================================================================
+=======================================================================================================
 
 FONTE:
 
